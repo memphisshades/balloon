@@ -32,6 +32,11 @@
 
 <title>James Tobin</title>
 
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
   <style>
     * {
       margin: 0;
@@ -395,6 +400,58 @@
         height: 100px;
       }
     }
+    
+    .text-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      text-align: right;
+      font-family: 'Cormorant Garamond', serif;
+      pointer-events: none;
+      z-index: 10;
+    }
+    
+    .name {
+      font-size: 11px;
+      font-weight: 300;
+      color: #ffffe0;
+      letter-spacing: 0.3px;
+      opacity: 0;
+      animation: fadeInName 2s ease-in forwards;
+      animation-delay: 5s;
+      margin-bottom: 1px;
+      line-height: 1.2;
+    }
+    
+    .subtitle {
+      font-size: 10px;
+      font-weight: 300;
+      color: rgba(255, 255, 224, 0.85);
+      letter-spacing: 0.3px;
+      opacity: 0;
+      animation: fadeInSubtitle 2s ease-in forwards;
+      animation-delay: 7.5s;
+      font-style: italic;
+      line-height: 1.2;
+    }
+    
+    @keyframes fadeInName {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    
+    @keyframes fadeInSubtitle {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
   </style>
 </head>
 <body>
@@ -409,6 +466,11 @@
         <path class="string" d="M 25 0 Q 30 70, 25 140 Q 20 210, 25 280" />
       </svg>
     </div>
+  </div>
+  
+  <div class="text-container">
+    <div class="name">James Tobin</div>
+    <div class="subtitle">camalyn.</div>
   </div>
   
   <script>
