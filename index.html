@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>James Tobin</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      width: 100%;
+      height: 100vh;
+      background: linear-gradient(to bottom, #1a1a2e 0%, #0f0f1e 100%);
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .balloon-container {
+      position: relative;
+      cursor: default;
+      opacity: 0;
+      animation: fadeIn 3s ease-in forwards;
+      filter: drop-shadow(0 25px 50px rgba(255, 20, 20, 0.3));
+      pointer-events: none;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    
+    .balloon {
+      width: 140px;
+      height: 170px;
+      background: 
+        /* Bright highlight on top left */
+        radial-gradient(ellipse at 35% 28%, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.5) 15%, transparent 40%),
+        /* Secondary soft highlight */
+        radial-gradient(ellipse at 28% 35%, rgba(255, 180, 180, 0.6) 0%, transparent 35%),
+        /* Reflected light from bottom */
+        radial-gradient(ellipse at 50% 85%, rgba(255, 100, 100, 0.3) 0%, transparent 40%),
+        /* Deep shadow on right side */
+        radial-gradient(ellipse at 75% 60%, rgba(100, 0, 0, 0.5) 0%, transparent 50%),
+        /* Main color gradient */
+        radial-gradient(ellipse at 50% 50%, #e63946 0%, #d62828 50%, #9d0208 100%);
+      border-radius: 50% 50% 50% 50% / 55% 55% 45% 45%;
+      position: relative;
+      box-shadow: 
+        /* Deep inner shadow on right */
+        inset -20px -25px 40px rgba(0, 0, 0, 0.5),
+        /* Soft inner highlight on left */
+        inset 20px 20px 30px rgba(255, 120, 120, 0.3),
+        /* Subtle top inner glow */
+        inset 0px 15px 25px rgba(255, 150, 150, 0.2),
+        /* External glow */
+        0 30px 60px rgba(220, 20, 20, 0.5),
+        /* Sharp external shadow */
+        0 10px 20px rgba(0, 0, 0, 0.4);
+    }
+    
+    /* Main highlight - enhanced */
+    .balloon::before {
+      content: '';
+      position: absolute;
+      width: 50px;
+      height: 65px;
+      background: 
+        radial-gradient(ellipse at 35% 25%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.6) 25%, rgba(255, 255, 255, 0.3) 45%, transparent 75%);
+      border-radius: 50%;
+      top: 22px;
+      left: 28px;
+      transform: rotate(-18deg);
+      filter: blur(0.5px);
+    }
+    
+    /* Tie knot at bottom */
+    .balloon::after {
+      content: '';
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 16px;
+      height: 16px;
+      background: radial-gradient(circle at 40% 40%, #8b0000, #5a0000);
+      border-radius: 50% 50% 60% 40%;
+      box-shadow: 
+        inset -2px -2px 4px rgba(0, 0, 0, 0.5),
+        0 3px 6px rgba(0, 0, 0, 0.4);
+    }
+    
+    /* Secondary highlight */
+    .highlight-secondary {
+      position: absolute;
+      width: 25px;
+      height: 35px;
+      background: radial-gradient(ellipse, rgba(255, 255, 255, 0.5) 0%, rgba(255, 200, 200, 0.3) 40%, transparent 70%);
+      border-radius: 50%;
+      top: 52px;
+      left: 22px;
+      filter: blur(1.5px);
+    }
+    
+    /* Tertiary small sparkle highlight */
+    .highlight-tertiary {
+      position: absolute;
+      width: 12px;
+      height: 18px;
+      background: radial-gradient(ellipse, rgba(255, 255, 255, 0.7) 0%, transparent 60%);
+      border-radius: 50%;
+      top: 38px;
+      left: 45px;
+      filter: blur(1px);
+    }
+    
+    /* Rim light on the edge */
+    .rim-light {
+      position: absolute;
+      width: 8px;
+      height: 60px;
+      background: linear-gradient(to right, transparent 0%, rgba(255, 150, 150, 0.4) 50%, transparent 100%);
+      border-radius: 50%;
+      top: 40px;
+      left: 2px;
+      filter: blur(2px);
+    }
+    
+    /* Subtle texture overlay */
+    .texture {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50% 50% 50% 50% / 55% 55% 45% 45%;
+      background-image: 
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(0, 0, 0, 0.03) 2px,
+          rgba(0, 0, 0, 0.03) 4px
+        );
+      opacity: 0.5;
+    }
+    
+    /* Ambient glow */
+    .glow {
+      position: absolute;
+      width: 180px;
+      height: 210px;
+      background: radial-gradient(ellipse at center, rgba(255, 50, 50, 0.15) 0%, transparent 70%);
+      top: -20px;
+      left: -20px;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 0.5;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 0.8;
+        transform: scale(1.05);
+      }
+    }
+    
+    .string-container {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 280px;
+      overflow: visible;
+    }
+    
+    .string {
+      stroke: rgba(180, 180, 180, 0.9);
+      stroke-width: 1.5;
+      fill: none;
+      filter: drop-shadow(1px 0 2px rgba(0, 0, 0, 0.3));
+    }
+    
+    /* Responsive sizing for smaller screens */
+    @media (max-height: 700px) {
+      .balloon {
+        width: 110px;
+        height: 135px;
+      }
+      
+      .balloon::before {
+        width: 35px;
+        height: 48px;
+        top: 18px;
+        left: 24px;
+      }
+      
+      .highlight-secondary {
+        width: 16px;
+        height: 24px;
+        top: 44px;
+        left: 20px;
+      }
+      
+      .glow {
+        width: 140px;
+        height: 165px;
+        top: -16px;
+        left: -16px;
+      }
+      
+      .string-container {
+        height: 180px;
+      }
+      
+      .string-container svg {
+        height: 180px;
+      }
+      
+      .string {
+        d: path("M 25 0 Q 30 45, 25 90 Q 20 135, 25 180");
+      }
+    }
+    
+    @media (max-height: 500px) {
+      .balloon {
+        width: 90px;
+        height: 110px;
+      }
+      
+      .balloon::before {
+        width: 28px;
+        height: 38px;
+        top: 15px;
+        left: 19px;
+      }
+      
+      .balloon::after {
+        bottom: -10px;
+        width: 13px;
+        height: 13px;
+      }
+      
+      .highlight-secondary {
+        width: 13px;
+        height: 20px;
+        top: 36px;
+        left: 16px;
+      }
+      
+      .glow {
+        width: 115px;
+        height: 135px;
+        top: -13px;
+        left: -13px;
+      }
+      
+      .string-container {
+        height: 140px;
+      }
+      
+      .string-container svg {
+        height: 140px;
+      }
+      
+      .string {
+        d: path("M 25 0 Q 30 35, 25 70 Q 20 105, 25 140");
+      }
+    }
+    
+    /* Landscape mode scaling */
+    @media (orientation: landscape) and (max-height: 600px) {
+      .balloon {
+        width: 90px;
+        height: 110px;
+      }
+      
+      .balloon::before {
+        width: 28px;
+        height: 38px;
+        top: 15px;
+        left: 19px;
+      }
+      
+      .balloon::after {
+        bottom: -10px;
+        width: 13px;
+        height: 13px;
+      }
+      
+      .highlight-secondary {
+        width: 13px;
+        height: 20px;
+        top: 36px;
+        left: 16px;
+      }
+      
+      .glow {
+        width: 115px;
+        height: 135px;
+        top: -13px;
+        left: -13px;
+      }
+      
+      .string-container {
+        height: 140px;
+      }
+      
+      .string-container svg {
+        height: 140px;
+      }
+    }
+    
+    @media (orientation: landscape) and (max-height: 400px) {
+      .balloon {
+        width: 70px;
+        height: 85px;
+      }
+      
+      .balloon::before {
+        width: 22px;
+        height: 30px;
+        top: 12px;
+        left: 15px;
+      }
+      
+      .balloon::after {
+        bottom: -8px;
+        width: 10px;
+        height: 10px;
+      }
+      
+      .highlight-secondary {
+        width: 10px;
+        height: 15px;
+        top: 28px;
+        left: 13px;
+      }
+      
+      .glow {
+        width: 90px;
+        height: 105px;
+        top: -10px;
+        left: -10px;
+      }
+      
+      .string-container {
+        height: 100px;
+      }
+      
+      .string-container svg {
+        height: 100px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="balloon-container" id="balloon">
+    <div class="glow"></div>
+    <div class="balloon">
+      <div class="highlight-secondary"></div>
+      <div class="texture"></div>
+    </div>
+    <div class="string-container">
+      <svg width="50" height="280" style="overflow: visible;" viewBox="0 0 50 280" preserveAspectRatio="xMidYMin meet">
+        <path class="string" d="M 25 0 Q 30 70, 25 140 Q 20 210, 25 280" />
+      </svg>
+    </div>
+  </div>
+  
+  <script>
+    const balloon = document.getElementById('balloon');
+    
+    let offsetX = 0;
+    let offsetY = 0;
+    let time = 0;
+    
+    function animate() {
+      time += 0.01;
+      
+      // Gentle floating motion - figure-8 pattern
+      offsetX = Math.sin(time) * 30;
+      offsetY = Math.sin(time * 0.7) * 20;
+      
+      // Update position
+      balloon.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+      
+      requestAnimationFrame(animate);
+    }
+    
+    // Start animation
+    animate();
+  </script>
+</body>
+</html>
