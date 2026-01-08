@@ -18,7 +18,6 @@
 <meta property="og:url" content="https://www.jamestobin.xyz">
 <meta property="og:image" content="https://www.jamestobin.xyz/favicon.jpg">
 
-
 <!-- Twitter Card Meta Tags -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="James Tobin">
@@ -48,19 +47,32 @@
     body {
       width: 100%;
       min-height: 100vh;
-      min-height: 100dvh; /* Dynamic viewport height for mobile */
+      min-height: 100dvh;
       background: linear-gradient(to bottom, #1a1a2e 0%, #0f0f1e 100%);
       overflow: hidden;
       display: flex;
       justify-content: center;
       align-items: center;
       position: relative;
-      padding-bottom: 20vh; /* Shifts content up more */
+      padding-bottom: 20vh;
       touch-action: none;
       user-select: none;
       -webkit-user-select: none;
       -moz-user-select: none;
       -ms-user-select: none;
+    }
+    
+    /* Screen reader only content */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
     }
     
     .balloon-container {
@@ -70,7 +82,7 @@
       animation: fadeIn 3s ease-in forwards;
       filter: drop-shadow(0 25px 50px rgba(255, 20, 20, 0.3));
       pointer-events: none;
-      margin-bottom: 50px; /* Offset to account for string below */
+      margin-bottom: 50px;
     }
     
     @keyframes fadeIn {
@@ -86,32 +98,21 @@
       width: 140px;
       height: 170px;
       background: 
-        /* Bright highlight on top left */
         radial-gradient(ellipse at 35% 28%, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.5) 15%, transparent 40%),
-        /* Secondary soft highlight */
         radial-gradient(ellipse at 28% 35%, rgba(255, 180, 180, 0.6) 0%, transparent 35%),
-        /* Reflected light from bottom */
         radial-gradient(ellipse at 50% 85%, rgba(255, 100, 100, 0.3) 0%, transparent 40%),
-        /* Deep shadow on right side */
         radial-gradient(ellipse at 75% 60%, rgba(100, 0, 0, 0.5) 0%, transparent 50%),
-        /* Main color gradient */
         radial-gradient(ellipse at 50% 50%, #e63946 0%, #d62828 50%, #9d0208 100%);
       border-radius: 50% 50% 50% 50% / 55% 55% 45% 45%;
       position: relative;
       box-shadow: 
-        /* Deep inner shadow on right */
         inset -20px -25px 40px rgba(0, 0, 0, 0.5),
-        /* Soft inner highlight on left */
         inset 20px 20px 30px rgba(255, 120, 120, 0.3),
-        /* Subtle top inner glow */
         inset 0px 15px 25px rgba(255, 150, 150, 0.2),
-        /* External glow */
         0 30px 60px rgba(220, 20, 20, 0.5),
-        /* Sharp external shadow */
         0 10px 20px rgba(0, 0, 0, 0.4);
     }
     
-    /* Main highlight - enhanced */
     .balloon::before {
       content: '';
       position: absolute;
@@ -126,7 +127,6 @@
       filter: blur(0.5px);
     }
     
-    /* Tie knot at bottom */
     .balloon::after {
       content: '';
       position: absolute;
@@ -142,7 +142,6 @@
         0 3px 6px rgba(0, 0, 0, 0.4);
     }
     
-    /* Secondary highlight */
     .highlight-secondary {
       position: absolute;
       width: 25px;
@@ -154,31 +153,6 @@
       filter: blur(1.5px);
     }
     
-    /* Tertiary small sparkle highlight */
-    .highlight-tertiary {
-      position: absolute;
-      width: 12px;
-      height: 18px;
-      background: radial-gradient(ellipse, rgba(255, 255, 255, 0.7) 0%, transparent 60%);
-      border-radius: 50%;
-      top: 38px;
-      left: 45px;
-      filter: blur(1px);
-    }
-    
-    /* Rim light on the edge */
-    .rim-light {
-      position: absolute;
-      width: 8px;
-      height: 60px;
-      background: linear-gradient(to right, transparent 0%, rgba(255, 150, 150, 0.4) 50%, transparent 100%);
-      border-radius: 50%;
-      top: 40px;
-      left: 2px;
-      filter: blur(2px);
-    }
-    
-    /* Subtle texture overlay */
     .texture {
       position: absolute;
       width: 100%;
@@ -195,7 +169,6 @@
       opacity: 0.5;
     }
     
-    /* Ambient glow */
     .glow {
       position: absolute;
       width: 180px;
@@ -236,10 +209,53 @@
       filter: drop-shadow(1px 0 2px rgba(0, 0, 0, 0.3));
     }
     
-    /* Responsive sizing for smaller screens */
+    /* Audio control button - screen reader only */
+    .audio-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px;
+      color: rgba(255, 255, 224, 0.9);
+      cursor: pointer;
+      pointer-events: auto;
+      transition: all 0.3s ease;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      opacity: 0;
+      pointer-events: none;
+    }
+    
+    .audio-button:focus {
+      opacity: 1;
+      pointer-events: auto;
+      outline: 2px solid rgba(255, 255, 224, 0.8);
+      outline-offset: 2px;
+      background: rgba(255, 255, 255, 0.15);
+    }
+    
+    .audio-button:focus:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+    
+    .audio-button:focus:active {
+      transform: scale(0.98);
+    }
+    
+    .audio-button.playing:focus {
+      background: rgba(230, 57, 70, 0.2);
+      border-color: rgba(230, 57, 70, 0.4);
+    }
+    
     @media (max-height: 700px) {
       body {
-        padding-bottom: 25vh; /* Extra lift on smaller screens */
+        padding-bottom: 25vh;
       }
       
       .balloon {
@@ -274,10 +290,6 @@
       
       .string-container svg {
         height: 180px;
-      }
-      
-      .string {
-        d: path("M 25 0 Q 30 45, 25 90 Q 20 135, 25 180");
       }
     }
     
@@ -321,13 +333,8 @@
       .string-container svg {
         height: 140px;
       }
-      
-      .string {
-        d: path("M 25 0 Q 30 35, 25 70 Q 20 105, 25 140");
-      }
     }
     
-    /* Landscape mode scaling */
     @media (orientation: landscape) and (max-height: 600px) {
       .balloon {
         width: 90px;
@@ -466,46 +473,86 @@
   </style>
 </head>
 <body>
-  <div class="balloon-container" id="balloon">
-    <div class="glow"></div>
-    <div class="balloon">
-      <div class="highlight-secondary"></div>
-      <div class="texture"></div>
+  <!-- Audio narrative -->
+  <audio id="narrative-audio" class="sr-only">
+    <source src="https://www.jamestobin.xyz/media/narrative.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Audio control button - visible only on keyboard focus -->
+  <button class="audio-button" id="audio-toggle" aria-label="Play audio narrative">
+    <span id="button-text">Play Audio Description</span>
+  </button>
+
+  <main role="main" aria-label="Portfolio homepage">
+    <div class="balloon-container" id="balloon" aria-hidden="true">
+      <div class="glow"></div>
+      <div class="balloon">
+        <div class="highlight-secondary"></div>
+        <div class="texture"></div>
+      </div>
+      <div class="string-container">
+        <svg width="50" height="280" style="overflow: visible;" viewBox="0 0 50 280" preserveAspectRatio="xMidYMin meet">
+          <path class="string" d="M 25 0 Q 30 70, 25 140 Q 20 210, 25 280" />
+        </svg>
+      </div>
     </div>
-    <div class="string-container">
-      <svg width="50" height="280" style="overflow: visible;" viewBox="0 0 50 280" preserveAspectRatio="xMidYMin meet">
-        <path class="string" d="M 25 0 Q 30 70, 25 140 Q 20 210, 25 280" />
-      </svg>
+    
+    <div class="text-container" aria-hidden="true">
+      <div class="name">James Tobin</div>
+      <div class="subtitle">camalyn.</div>
     </div>
-  </div>
-  
-  <div class="text-container">
-    <div class="name">James Tobin</div>
-    <div class="subtitle">camalyn.</div>
-  </div>
+  </main>
   
   <script>
-    const balloon = document.getElementById('balloon');
+  const balloon = document.getElementById('balloon');
+  const audio = document.getElementById('narrative-audio');
+  const audioButton = document.getElementById('audio-toggle');
+  const buttonText = document.getElementById('button-text');
+  
+  let offsetX = 0;
+  let offsetY = 0;
+  let time = 0;
+  
+  // Balloon floating animation
+  function animate() {
+    time += 0.01;
     
-    let offsetX = 0;
-    let offsetY = 0;
-    let time = 0;
+    offsetX = Math.sin(time) * 30;
+    offsetY = Math.sin(time * 0.7) * 20;
     
-    function animate() {
-      time += 0.01;
-      
-      // Gentle floating motion - figure-8 pattern
-      offsetX = Math.sin(time) * 30;
-      offsetY = Math.sin(time * 0.7) * 20;
-      
-      // Update position
-      balloon.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
-      
-      requestAnimationFrame(animate);
+    balloon.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+    
+    requestAnimationFrame(animate);
+  }
+  
+  animate();
+  
+  // Audio controls
+  audioButton.addEventListener('click', () => {
+    if (audio.paused) {
+ audioButton.blur();
+  buttonText.textContent = 'Pause Audio Description';
+  audioButton.classList.add('playing');
+  audioButton.setAttribute('aria-label', 'Pause audio narrative');
+  setTimeout(() => {
+    audio.play();
+  }, 1500);
+
+    } else {
+      audio.pause();
+      buttonText.textContent = 'Play Audio Description';
+      audioButton.classList.remove('playing');
+      audioButton.setAttribute('aria-label', 'Play audio narrative');
     }
-    
-    // Start animation
-    animate();
-  </script>
+  });
+  
+  // Reset button when audio ends
+  audio.addEventListener('ended', () => {
+    buttonText.textContent = 'Play Audio Description';
+    audioButton.classList.remove('playing');
+    audioButton.setAttribute('aria-label', 'Play audio narrative');
+  });
+</script>
 </body>
 </html>
